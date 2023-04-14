@@ -8,7 +8,7 @@ set -e
 cp package.json package.json.bak
 
 # if an error occurs, run the cleanup function 
-trap cleanup ERR INT TERM
+trap cleanup ERR INT TERM 
 
 cleanup() {
   echo "An error occurred. Reverting package.json to previous version."
@@ -138,3 +138,6 @@ if git diff-index --quiet HEAD --; then
 fi
 
 confirm_release $new_version $2
+
+# Step 6: remove the backup file
+rm package.json.bak
