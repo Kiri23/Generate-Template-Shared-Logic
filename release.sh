@@ -24,6 +24,22 @@ prompt_version() {
     fi
 }
 
+clean_git() {
+    case $1 in
+        y|Y|yes|YES)
+            read -p "Enter a commit message [default: Commit changes before updating version]: " commit_message
+            commit_message=${commit_message:-"Commit changes before updating version"}
+            git add .
+            git commit -m "$commit_message"
+            git push
+            ;;
+        *)
+            echo "Please commit and push any changes before updating the version."
+            exit 1
+            ;;
+    esac
+}
+
 update_version() {
     while true; do
         # if the comand works, break out of the loop
@@ -36,19 +52,9 @@ update_version() {
             if [[ $(npm version $1 2>&1) == *"Git working directory not clean."* ]]; then
                 echo "\nGit working directory not clean. Please commit any changes before updating the version."
                 read -p "Do you want to commit and push the changes? (y/n): " confirm
-                case $confirm in
-                    y|Y|yes|YES)
-                        read -p "Enter a commit message [default: Commit changes before updating version]: " commit_message
-                        commit_message=${commit_message:-"Commit changes before updating version"}
-                        git add .
-                        git commit -m "$commit_message"
-                        git push
-                        ;;
-                    *)
-                        echo "Please commit and push any changes before updating the version."
-                        exit 1
-                        ;;
-                esac
+                clean_git $confirm
+                # run the npm version again, now that we have a clean directory
+                npm version $1
             fi
         fi
     done
