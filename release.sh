@@ -51,7 +51,8 @@ update_version() {
             # the [[]] is used for comparison and the $() is used to execute the command
             if [[ $(npm version $1 2>&1) == *"Git working directory not clean."* ]]; then
                 echo "\nGit working directory not clean. Please commit any changes before updating the version."
-                read -p "Do you want to commit and push the changes? (y/n): " confirm
+                read -p "Do you want to commit and push the changes? (y/n) [default: y]: " confirm
+                confirm=${confirm:-y}
                 clean_git $confirm
                 # run the npm version again, now that we have a clean directory
                 npm version $1
@@ -62,16 +63,17 @@ update_version() {
 
 # Confirm if the user wants to tag and release the new version
 confirm_release() {
-    read -p "Do you want to tag and release version $1? (y/n): " confirm
+    read -p "Do you want to tag and release version $1? (y/n) [default: y]: " confirm
+    confirm=${confirm:-y}
     case $confirm in
         y|Y|yes|YES)
             # look if there is a tag with the same version
             if git tag -l | grep -q "v$1"; then
-                echo "Tag v$1 already exists. Please update the version and try again."
-                exit 1
+                echo "Tag v$1 already exists. Don't need to create a tag since NPM version $1 create one"
+            else
+                # Step 3: Create a new tag
+                git tag -a "v$1" -m "Release version $1"
             fi
-            # Step 3: Tag the commit
-            git tag v$1
 
             # Step 4: Push changes and tag to remote repository
             git push && git push --tags
