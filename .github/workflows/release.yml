@@ -18,9 +18,11 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16.x'
-
-      - name: Install dependencies
-        run: npm install
+        
+      - name: Configure git identity
+        run: |
+          git config --global user.email "christian_nogueras94@hotmail.com"
+          git config --global user.name "Christian Nogueras"
 
       - name: Run release script
         run: bash release.sh ${{ inputs.version }}
