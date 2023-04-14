@@ -28,11 +28,20 @@ git add .
 git commit -m "Release version $new_version"
 git push
 
-# Step 3: Tag the commit
-git tag v$new_version
+# Confirm if the user wants to tag and release the new version
+read -p "Do you want to tag and release version $new_version? (y/n): " confirm
+case $confirm in
+    y|Y|yes|YES)
+        # Step 3: Tag the commit
+        git tag v$new_version
 
-# Step 4: Push changes and tag to remote repository
-git push && git push --tags
+        # Step 4: Push changes and tag to remote repository
+        git push && git push --tags
 
-# Step 5: Publish new version to npm
-npm publish
+        # Step 5: Publish new version to npm
+        npm publish
+        ;;
+    *)
+        echo "New version $new_version was committed, but not tagged or released."
+        ;;
+esac
