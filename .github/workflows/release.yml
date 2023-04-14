@@ -25,4 +25,4 @@ jobs:
           git config --global user.name "Christian Nogueras"
 
       - name: Run release script
-        run: bash release.sh ${{ inputs.version }}
+        run: bash release.sh ${{ inputs.version }} ci
