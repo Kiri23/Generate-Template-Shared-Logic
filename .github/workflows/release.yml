@@ -1,0 +1,16 @@
+name: Update Version
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run script
+        run: |
+          chmod +x update-version.sh
+          ./update-version.sh
