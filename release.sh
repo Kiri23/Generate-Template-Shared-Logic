@@ -25,20 +25,26 @@ prompt_version() {
 }
 
 clean_git() {
-    case $1 in
-        y|Y|yes|YES)
-            read -p "Enter a commit message [default: Commit changes before updating version]: " commit_message
-            commit_message=${commit_message:-"Commit changes before updating version"}
-            git add .
-            git commit -m "$commit_message"
-            git push
-            ;;
-        *)
-            echo "Please commit and push any changes before updating the version."
-            exit 1
-            ;;
-    esac
+    # check if there are any changes to commit
+    if git diff-index --quiet HEAD --; then
+        echo "No changes to commit. Status is clean."
+    else
+        case $1 in
+            y|Y|yes|YES)
+                read -p "Enter a commit message [default: Commit changes before updating version]: " commit_message
+                commit_message=${commit_message:-"Commit changes before updating version"}
+                git add .
+                git commit -m "$commit_message"
+                git push
+                ;;
+            *)
+                echo "Please commit and push any changes before updating the version."
+                exit 1
+                ;;
+        esac
+    fi
 }
+
 
 update_version() {
     while true; do
