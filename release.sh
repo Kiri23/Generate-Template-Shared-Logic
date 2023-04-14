@@ -57,8 +57,14 @@ update_version() {
             # the [[]] is used for comparison and the $() is used to execute the command
             if [[ $(npm version $1 2>&1) == *"Git working directory not clean."* ]]; then
                 echo "\nGit working directory not clean. Please commit any changes before updating the version."
-                read -p "Do you want to commit and push the changes? (y/n) [default: y]: " confirm
-                confirm=${confirm:-y}
+                 if [[ $2 == "ci" ]]; then
+                    #  skip confirmation if the script is run in CI
+                    confirm='y'
+                    echo "Running in CI. Skipping confirmation."
+                else 
+                    read -p "Do you want to commit and push the changes? (y/n) [default: y]: " confirm
+                    confirm=${confirm:-y}
+                fi
                 clean_git $confirm
                 # run the npm version again, now that we have a clean directory
                 npm version $1
@@ -69,9 +75,15 @@ update_version() {
 
 # Confirm if the user wants to tag and release the new version
 confirm_release() {
-    read -p "Do you want to tag and release version $1? (y/n) [default: y]: " confirm
-    echo "Aca no pasa"
-    confirm=${confirm:-y}
+    if [[ $2 == "ci" ]]; then
+        #  skip confirmation if the script is run in CI
+         confirm='y'
+         echo "Running in CI. Skipping confirmation of the release."
+    else 
+        read -p "Do you want to tag and release version $1? (y/n) [default: y]: " confirm
+        confirm=${confirm:-y}
+    fi
+
     case $confirm in
         y|Y|yes|YES)
             # look if there is a tag with the same version
@@ -98,7 +110,7 @@ confirm_release() {
 prompt_version $1
 
 # Step 1: Update version in package.json
-update_version $version
+update_version $version $1
 
 # Run node js on bash to get the new version
 new_version=$(node -p -e "require('./package.json').version")
@@ -111,5 +123,5 @@ if git diff-index --quiet HEAD --; then
   else 
     git add . && git commit -m "Release version $new_version" && git push;
 fi
-echo "Version $new_version. Does this code run?"
-confirm_release $new_version
+
+confirm_release $new_version $1
