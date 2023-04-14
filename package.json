@@ -1,6 +1,6 @@
 {
   "name": "generate-template-shared-logic",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Contains shared logic for generating templates",
   "author": "Christian Nogueras",
   "main": "index.js",
