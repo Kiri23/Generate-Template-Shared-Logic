@@ -1,6 +1,6 @@
 # How to Release the Project
 
-Follow these steps to release a new version of your project:
+Follow these steps to release a new version of your project or run sh release.sh to automate the process:
 
 1. Make the changes to your code that you want to include in the new version.
 2. Update the version number in the `package.json` file according to the semantic versioning standard (e.g. `1.0.0`, `1.0.1`, `1.1.0`, etc.) using the `npm version <major/minor/patch>` command.
