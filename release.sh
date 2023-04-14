@@ -91,9 +91,8 @@ new_version=$(node -p -e "require('./package.json').version")
 
 
 # Step 2: Commit changes
-git add .
-git commit -m "Release version $new_version"
-git push
+if git add . && git commit -m "Release version $new_version" && git push; then
+  echo "Changes committed and pushed successfully"
 
 echo "New version $new_version was committed. yeah"
 confirm_release $new_version
