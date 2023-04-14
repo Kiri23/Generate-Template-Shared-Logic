@@ -12,5 +12,5 @@ jobs:
 
       - name: Run script
         run: |
-          chmod +x update-version.sh
-          ./update-version.sh
+          chmod +x release.sh
+          ./release.sh
