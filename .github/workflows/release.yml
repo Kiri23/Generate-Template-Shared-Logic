@@ -27,8 +27,11 @@ jobs:
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Print NPM_TOKEN
-        run: echo $NPM_TOKEN
+      - name: Print .npmrc file
+        run: |
+          echo "Contents of .npmrc file:"
+          cat ~/.npmrc
+
 
 
       - name: Run release script
