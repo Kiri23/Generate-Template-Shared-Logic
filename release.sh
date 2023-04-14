@@ -1,6 +1,8 @@
 #!/bin/bash
 # This script will update the version in package.json, commit the changes, tag the commit, and publish the new version to npm.
 
+# TODO: revert package.json to previous version if the script fails at any point
+
 # Exit immediately if a command exits with a non-zero status.
 set -e
 
