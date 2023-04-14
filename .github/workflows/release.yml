@@ -1,16 +1,26 @@
-name: Update Version
+name: Release
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Which version to release: major, minor or patch'
+        required: true
 
 jobs:
-  update-version:
+  release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run script
-        run: |
-          chmod +x release.sh
-          ./release.sh
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run release script
+        run: bash release.sh ${{ inputs.version }}
