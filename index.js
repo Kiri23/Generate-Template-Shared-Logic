@@ -1,9 +1,9 @@
 import copy from './copy.js';
-import getTemplate from './getTemplate.js';
+import getTemplates from './getTemplate.js';
 
 const main = {
         copy,
-        getTemplate
+        getTemplates
 }
 
 export default main;
