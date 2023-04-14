@@ -6,7 +6,6 @@ on:
       version:
         description: 'Which version to release: major, minor or patch'
         required: true
-        default: ['major', 'minor', 'patch']
 
 jobs:
   release:
