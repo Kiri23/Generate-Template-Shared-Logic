@@ -110,5 +110,5 @@ if git diff-index --quiet HEAD --; then
   else 
     git add . && git commit -m "Release version $new_version" && git push;
 fi
-
+echo "Version $new_version. Does this code run?"
 confirm_release $new_version
