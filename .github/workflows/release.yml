@@ -24,13 +24,13 @@ jobs:
           git config --global user.email "christian_nogueras94@hotmail.com"
           git config --global user.name "Christian Nogueras"
       - name: Authenticate with npm
-        run: echo "//registry.npmjs.org/:_authToken=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" > ~/.npmrc
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Print .npmrc file
         run: |
           echo "Contents of .npmrc file:"
           cat ~/.npmrc
-
+          
       - name: Run release script
         run: bash release.sh ${{ inputs.version }} ci
