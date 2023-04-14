@@ -110,7 +110,7 @@ confirm_release() {
 prompt_version $1
 
 # Step 1: Update version in package.json
-update_version $version $1
+update_version $version $2
 
 # Run node js on bash to get the new version
 new_version=$(node -p -e "require('./package.json').version")
@@ -124,4 +124,4 @@ if git diff-index --quiet HEAD --; then
     git add . && git commit -m "Release version $new_version" && git push;
 fi
 
-confirm_release $new_version $1
+confirm_release $new_version $2
