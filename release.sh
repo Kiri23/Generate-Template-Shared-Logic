@@ -65,6 +65,11 @@ confirm_release() {
     read -p "Do you want to tag and release version $1? (y/n): " confirm
     case $confirm in
         y|Y|yes|YES)
+            # look if there is a tag with the same version
+            if git tag -l | grep -q "v$1"; then
+                echo "Tag v$1 already exists. Please update the version and try again."
+                exit 1
+            fi
             # Step 3: Tag the commit
             git tag v$1
 
@@ -93,7 +98,7 @@ new_version=$(node -p -e "require('./package.json').version")
 # Step 2: Commit changes
 # by some reason if there is nothing to commit, the bash script will exit and will not continue to confirm_release
 if git add . && git commit -m "Release version $new_version" && git push; then
-  echo "Changes committed and pushed successfully"
+  echo "Changes committed and pushed successfully. version $new_version"
 fi
 
 confirm_release $new_version
