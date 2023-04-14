@@ -105,8 +105,10 @@ new_version=$(node -p -e "require('./package.json').version")
 
 # Step 2: Commit changes
 # by some reason if there is nothing to commit, the bash script will exit and will not continue to confirm_release
-if git add . && git commit -m "Release version $new_version" && git push; then
-  echo "Changes committed and pushed successfully. version $new_version"
+if git diff-index --quiet HEAD --; then
+    echo "No changes to commit. Status is clean. Version $new_version. Continuing to confirm release"
+  else 
+    git add . && git commit -m "Release version $new_version" && git push;
 fi
 
 confirm_release $new_version
