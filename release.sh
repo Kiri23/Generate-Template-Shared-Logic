@@ -89,6 +89,7 @@ update_version $version
 # Run node js on bash to get the new version
 new_version=$(node -p -e "require('./package.json').version")
 
+echo "HELLO I AM HERE"
 # Step 2: Commit changes
 git add .
 git commit -m "Release version $new_version"
