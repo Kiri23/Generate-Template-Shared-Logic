@@ -1,6 +1,6 @@
 import main from './index.js';
 
-const { copy, getTemplate } = main();
+const { copy, getTemplate } = main;
 
 
 (async () => {
