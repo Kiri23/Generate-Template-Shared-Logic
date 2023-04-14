@@ -24,6 +24,7 @@ jobs:
           git config --global user.email "christian_nogueras94@hotmail.com"
           git config --global user.name "Christian Nogueras"
       - name: Authenticate with npm
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}"
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
