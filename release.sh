@@ -1,10 +1,21 @@
 #!/bin/bash
 # This script will update the version in package.json, commit the changes, tag the commit, and publish the new version to npm.
 
-# TODO: revert package.json to previous version if the script fails at any point
-
 # Exit immediately if a command exits with a non-zero status.
 set -e
+
+# Step 0: Backup package.json
+cp package.json package.json.bak
+
+# if an error occurs, run the cleanup function 
+trap cleanup ERR INT TERM
+
+cleanup() {
+  echo "An error occurred. Reverting package.json to previous version."
+  mv package.json.bak package.json
+  exit 1
+}
+
 
 # prompt the user to select a version if no argument is passed
 prompt_version() {
