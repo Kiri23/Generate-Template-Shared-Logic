@@ -70,6 +70,7 @@ update_version() {
 # Confirm if the user wants to tag and release the new version
 confirm_release() {
     read -p "Do you want to tag and release version $1? (y/n) [default: y]: " confirm
+    echo "Aca no pasa"
     confirm=${confirm:-y}
     case $confirm in
         y|Y|yes|YES)

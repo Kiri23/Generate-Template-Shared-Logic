@@ -6,6 +6,13 @@ on:
       version:
         description: 'Which version to release: major, minor or patch'
         required: true
+        options:
+          major:
+            description: 'Major version'
+          minor:
+            description: 'Minor version'
+          patch:
+            description: 'Patch version'
 
 jobs:
   release:
